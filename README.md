@@ -71,13 +71,15 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version:   
- 1.3.0 # Replace with your desired Terraform version
+          terraform_version: 1.3.0 # Replace with your desired Terraform version
+      - name: Configure AWS credentials
+        run: |
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Initialize Terraform
         run: terraform init
       - name: Validate Terraform configuration
-        run: terraform validate   
-
+        run: terraform validate
       - name: Create branch and pull request (if `terraform.tfvars` changed)
         run: |
           if [[ $(git diff --name-only --cached) =~ terraform\.tfvars ]]; then
@@ -88,7 +90,6 @@ jobs:
       - name: Apply Terraform changes (if pull request exists)
         if: exists(github.event.pull_request)
         run: terraform apply -auto-approve
-
         
 
 Explanation
@@ -109,3 +110,17 @@ Key Points:
 Automatic Branch Creation and Pull Request: The pipeline automatically creates a new branch and opens a pull request when terraform.tfvars is modified.
 Variable-Based Instance Name: By modifying the instance_name variable in variable.tfvars, you can easily change the EC2 instance's name without altering the main Terraform script.
 GitHub Actions CI/CD: The pipeline ensures that Terraform changes are applied automatically after a pull request is merged, providing a streamlined workflow.
+
+
+
+To add AWS access key and secret access key as environment variables in your GitHub Actions CI/CD pipeline, you can use GitHub Actions' built-in secrets feature. Here's how to implement it:
+
+Create GitHub Secrets:
+Go to your GitHub repository's settings.
+Navigate to "Secrets" -> "Actions".
+Click "New secret".
+Add the following secrets:
+AWS_ACCESS_KEY_ID: Your AWS access key ID.
+AWS_SECRET_ACCESS_KEY: Your AWS secret access key.
+Access Secrets in Your Workflow:
+In your GitHub Actions workflow file (terraform.yml), reference the secrets using the syntax ${{ secrets.AWS_ACCESS_KEY_ID }} and ${{ secrets.AWS_SECRET_ACCESS_KEY }}.
