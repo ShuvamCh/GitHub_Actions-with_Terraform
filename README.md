@@ -2,9 +2,9 @@ Please document an end to end process of creating a terraform script to launch E
 
 Creating a Terraform Script and GitHub Actions CI/CD Pipeline
 Terraform Script
-main.tf:
 
-Terraform
+
+main.tf:
 resource "aws_instance" "example" {
   ami           = "ami-0c55b159cbfafe1f0" # Replace with your desired AMI
   instance_type = "t2.micro"
@@ -39,13 +39,11 @@ resource "aws_s3_bucket"  
  "example" {
   bucket = "my-s3-bucket"
 }
-Use code with caution.
+
 
 variable.tfvars:
-
-Terraform
 instance_name = "my-ec2-instance"
-Use code with caution.
+
 
 GitHub Repository
 Create a new GitHub repository.
@@ -53,6 +51,8 @@ Add the main.tf and variable.tfvars files to the repository.
 Commit and push the changes.
 GitHub Actions CI/CD Pipeline
 YAML
+
+
 name: Terraform CI/CD
 
 on:
@@ -88,7 +88,8 @@ jobs:
       - name: Apply Terraform changes (if pull request exists)
         if: exists(github.event.pull_request)
         run: terraform apply -auto-approve
-Use code with caution.
+
+        
 
 Explanation
 Terraform Script:
