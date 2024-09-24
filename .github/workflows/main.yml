@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - terraform.tfvars
+  pull_request:
+    paths:
+      - terraform.tfvars
 
 jobs:
   build:
@@ -32,6 +35,9 @@ jobs:
             git push --set-upstream origin update-instance-name
             echo "Created branch and pull request."
           fi
-      - name: Apply Terraform changes (if pull request exists)
-        if: exists(github.event.pull_request)
+      - name: Apply Terraform changes on pull request
+        if: github.event_name == 'pull_request'
+        run: terraform apply -auto-approve
+      - name: Apply Terraform changes on push to main
+        if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve
