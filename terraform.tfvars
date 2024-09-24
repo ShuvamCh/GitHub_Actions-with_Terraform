@@ -1,1 +1,1 @@
-instance_name = "my-ec2-instance"
+instance_name = "my-ec2-instance1"
