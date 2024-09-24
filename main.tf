@@ -19,8 +19,7 @@ resource "aws_security_group" "example" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  ingress   
- {
+  ingress   {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -28,7 +27,6 @@ resource "aws_security_group" "example" {
   }
 }
 
-resource "aws_s3_bucket"   
- "example" {
-  bucket = "my-s3-bucket"
-}
+resource "aws_s3_bucket" "my_s3_bucket" {
+   bucket = "my-tf-test-bucket999911111"
+ }
